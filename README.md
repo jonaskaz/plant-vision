@@ -39,14 +39,33 @@ We applied a binary threshold on the A channel of the LAB image to remove the ba
 :----------------------:|
 |![Detected Plants](report_imgs/detected_plants.png)|
 
+### Blurring, Fill, and Dilation
 
-We explored a few other techniques for plant detection that did not work as well.
+Blurring, fill, and dilation are techniques used to reduce noise and separation of objects when detected. To apply these effects a kernel is used. A kernel is a small matrix used to change the pixel values in an image. 
+#### Median Blur
+In our case, we first applied a median blur filter. This filter works by stepping through the image, looking at a 10x10 area of pixels. It calculates the median pixel value among those 100 pixels, and sets the center pixel to that value. It then repeats, moving throughout the image resulting in a blurred image. 
+#### Fill
+Fill is used to remove small holes in the image that are the result of noise or misidentified plants. Fill works by going through the image and creating a binary structure from the image. This binary structure changes any pixels in the image that are greater than 0 to a 1. Next, groups (any pixels touching each other) of pixels are labeled. These labeled groups are checked, and those under a certain size have their pixel values set to 0. This final mask is then applied back to the original image. An example of this fill is shown below.
+
+| Unfilled | Filled |
+:----------------------:|:----------------------:|
+|![Unfilled Image ](report_imgs/unfilled.png)|![Filled Image](report_imgs/filled.png)
+
+The drawback of using a fill is that this sets a minimum size for identifiable plants. For example, small sprouts that are just beginning to show on the image may be falsely filled in.
+
+### Dilation
+Dilation is a technique that attempts to fill in the structure of detected elements in an image. To do this a structuring element is used (a kernel). This kernel is moved throughout the binary image, and if any pixels in the kernel are 1, the center pixel is set to 1. This has the effect of smoothing out the edges. The effect of this filter on our image was not visually perceptible, but we kept it in as an additional safety net. Dilation explanation resource: https://www.cs.auckland.ac.nz/courses/compsci773s1c/lectures/ImageProcessing-html/topic4.htm
+
+
+### Canny Edge Detection
+An alternative to the above filtering that we explored is Canny Edge Detection. Our attempts on this are shown below. This method did not work well for a few reasons:
+- The plant leaves overlap and are not distinct objects
+- There are many other edges present in the image, that also overlap with the plants
+- There is no way to distinguish plant edges from other edges in the image
 
 | Canny Edge Detection | Canny Edge on LAB Image |
 :----------------------:|:----------------------:|
 |![Failed Edge Detection](report_imgs/canny_edge.png)|![Failed Edge Dection on LAB Image](report_imgs/canny_edge_lab.png)
-
-#TODO Why does edge detection fail here?
 
 ## Measuring Plants
 
