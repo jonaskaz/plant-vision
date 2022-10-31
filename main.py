@@ -3,22 +3,14 @@ import cv2
 import numpy as np
 
 
-class options:
-    def __init__(self):
-        self.image = "./seedling_imgs/top_2.jpeg"
-        self.debug = "plot"
-        self.writeimg= False
-        self.result = "res2.json"
-        self.outdir = "." # Store the output to the current directory
-
-
-def load_image(args):
+def load_image(filepath):
     """
     Load the plant image and convert it into LAB colorspace
 
     Returns: the loaded image, and the LAB A channel of the image
     """
-    img, _, _ = pcv.readimage(filename=args.image)
+    filepath = join("./seedling_imgs/",filepath)
+    img, _, _ = pcv.readimage(filename=filepath)
     #   channel- Split by 'l' (lightness), 'a' (green-magenta), or 'b' (blue-yellow) channel
     return img, pcv.rgb2gray_lab(rgb_img=img, channel='a')
 
@@ -104,14 +96,32 @@ def find_squares(img):
     square_area = (x-w) * (y-h)
     return square_area
 
+def get_plant_area(filepath):
+    """
+    Returns: area of plant in mm
 
-if __name__ == "__main__":
-    args = options()
-    img, gray_img = load_image(args)
+    """
+    img, gray_img = load_image(filepath)
     roi_contours, _, mask = find_plants(img, gray_img)
     sizes = calculate_roi_area(roi_contours)
-    print(sizes)
+    #print(sizes)
     view_plants(img, mask)
 
-    square_area = find_squares(img)
-    print(square_area)
+    square_area_mm = 36
+    square_area_pixels = find_squares(img)
+    #print(square_area)
+    pixels_per_mm = square_area_pixels/square_area_mm
+    plant_area_mm = sizes[1] * pixels_per_mm
+
+    return plant_area_mm
+
+
+if __name__ == "__main__":
+    
+    filenames =  ['top_10_23.jpg','top_10_24.jpeg','top_10_27.jpg']
+    plant_sizes = []
+    for file in enumerate(filenames):
+        plant_sizes[file] = get_plant_area(file)
+        print(plant_sizes[file])
+
+    
