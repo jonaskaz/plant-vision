@@ -1,9 +1,14 @@
 # Plant Detection and Measurement (PDM)
 #TODO make a better name
 
-What was the goal of your project? Since everyone is doing a different project, you will have to spend some time setting this context.
+In this project we hoped to explore the capabilities of computer vision in agriculture. This is a blossoming field of computation that has a lot of potential to impact the way we grow our food. As a testbed for exploring this topic, we used Olin Hydroponics' seedling cart that has small plants germinating. An image of this set up is shown below.
 
-How did you solve the problem (i.e., what methods / algorithms did you use and how do they work)? As above, since not everyone will be familiar with the algorithms you have chosen, you will need to spend some time explaining what you did and how everything works.
+| Hydroponics Seedling Cart |
+:----------------------:|
+|![Hydroponics Seedling Cart Image](report_imgs/cart.jpg)|
+
+ The goal of our project was to ingest images of plants, detect their location, and perform some meaningful computation on them. The first step of identifying the location of a plant is important, and lays the groundwork for a plethora of applications. Our ideal implementation of this portion would be able to identify plants in multiple camera angles and lighting. Our meaningful computation that we settled on was calculating the leaf area of the plants in order to track growth over time. This measure can be used to understand growth rate and help us predict when plants should be transplanted out of the germination cart.
+
 
 ## Detecting Plants in an Image
 
