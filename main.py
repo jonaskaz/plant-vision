@@ -1,4 +1,5 @@
 from plantcv import plantcv as pcv
+import cv2
 import numpy as np
 
 
@@ -75,6 +76,34 @@ def calculate_roi_area(roi_contours):
         plant_areas[i] = polyarea(x, y)
     return plant_areas
 
+def find_squares(img):
+    """""
+    Get the area of the squares
+
+    Returns: area in pixels
+    """
+    # proccess image
+    img_grey = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    #get threshold image
+    ret,thresh_img = cv2.threshold(img_grey, 100, 255, cv2.THRESH_BINARY)
+    #find contours
+    contours, hierarchy = cv2.findContours(thresh_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+    #create an empty image for contours
+    img_contours = np.zeros(img.shape)
+
+    max_contour = contours[0]
+    for contour in contours:
+        if cv2.contourArea(contour)>cv2.contourArea(max_contour) and cv2.contourArea(contour) < 100000:
+          max_contour=contour
+
+    contour=max_contour
+    approx=cv2.approxPolyDP(contour, 0.01*cv2.arcLength(contour,True),True)
+    x,y,w,h=cv2.boundingRect(approx)
+
+    square_area = (x-w) * (y-h)
+    return square_area
+
 
 if __name__ == "__main__":
     args = options()
@@ -83,3 +112,6 @@ if __name__ == "__main__":
     sizes = calculate_roi_area(roi_contours)
     print(sizes)
     view_plants(img, mask)
+
+    square_area = find_squares(img)
+    print(square_area)
