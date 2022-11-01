@@ -1,5 +1,5 @@
 # Plant Detection and Measurement (PDM)
-#TODO make a better name
+Ally Bell and Jonas Kazlauskas
 
 In this project we hoped to explore the capabilities of computer vision in agriculture. This is a blossoming field of computation that has a lot of potential to impact the way we grow our food. As a testbed for exploring this topic, we used Olin Hydroponics' seedling cart that has small plants germinating. An image of this set up is shown below.
 
@@ -74,11 +74,47 @@ An alternative to the above filtering that we explored is Canny Edge Detection. 
 
 ## Measuring Plants
 
-#TODO
+After detecting the plants, we were able to determing contour lines that surround each plant. This allowed us to calulate the area of plant within each contour line. This measurement gave us a combination of both size and height of the plant, because the plant gets closer to the camera as it grows taller.
 
-Describe a design decision you had to make when working on your project and what you ultimately did (and why)? These design decisions could be particular choices for how you implemented some part of an algorithm or perhaps a decision regarding which of two external packages to use in your project.
+Next, we wanted to be able to relate the area of the plant in pixels to a measurement in the real world. To do this we detected the edges of the squares in the image.  
 
-What if any challenges did you face along the way?
-What would you do to improve your project if you had more time?
 
-Did you learn any interesting lessons for future robotic programming projects? These could relate to working on robotics projects in teams, working on more open-ended (and longer term) problems, or any other relevant topic.
+#TODO how did we do edge detection?
+
+
+After detecting the edges of the squares in the image and calculating their area in pixels. We measured the squares in real life and were able to create a ratio of pixels to mm for each image. We could then use this value to calculate the area in mm of the plants. 
+
+## Results
+
+We looked at three images of the plants over time. The detected plants from each of these images is shown below. As you can see they grow larger over time. 
+
+| 10/23 | 10/24 | 10/27 |
+:----------------------:|:----------------------:|:----------------------:|
+|![10/23 plants](report_imgs/detected_plants.png)|![10/24 plants](report_imgs/detected_plants_10_24.png)|![10/27 plants](report_imgs/detected_plants_10_27.png)
+
+We ran each of these images through our algorithm and calculated the area of each of the plants in the image. The results of these calculations are shown below. Each color in the image represents a different plant.
+
+![Plant area over time](report_imgs/plant_area_over_time.png)
+
+These results can help us calculate the growth rate of the plants over time, and predict when they will need to be harvested.
+
+We decided to use PlantCV as the main package for this project. This was an early design decision that allowed us to focus on the higher level concepts and applications of computer vision without getting lost in the implementation details. However, this lead to some limitations in the flexibility of our algorithm, such as calculating the size of the plants. 
+
+## Challenges
+
+While working on this project one problem we struggled with was calculating the area of the plants in the image. In PlantCV the typical workflow is the manually define regions that you want to analyze, and calculate the size of objects in that region. This did not fit with our goals of making a flexible algorithm, and led us to using a roundabout method for calculating the area. Instead of using PlantCV we instead used an algorithm called the [shoelace formula](https://en.wikipedia.org/wiki/Shoelace_formula) to calculate the area within a polygon. 
+
+## Future Improvements  
+
+We identified a number of improvements that could make this project better in the future:
+- Add in debugging features that can help us understand and visualize what our algorithm is doing throughout each of its steps
+- Test our algorithm with other images and angles to understand its limitations
+- Add in an additional step to automatically crop the image to only include the black tray
+- Add in the abilitiy to count the number of squares in the image, and partition the analysis based on these squares
+- With the above step, we could then use PlantCV built in analysis, and add some calculations that analyze the shape of the plant
+
+## Lessons
+
+- Computer vision is brittle, and difficult to generalize
+- Before starting a project in computer vision, it is extremely important to narrow down the context and understand what the input images will be
+- RGB images can be used in plant analysis, but for more advanced metrics thermal imaging or other alternatives can give more useful data
