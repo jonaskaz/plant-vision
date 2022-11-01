@@ -78,12 +78,7 @@ After detecting the plants, we were able to determing contour lines that surroun
 
 Next, we wanted to be able to relate the area of the plant in pixels to a measurement in the real world. To do this we used the squares of the tray the plants are grown in. These squares are easily identifiable, and have a consistent dimension in the real world that we know and can use as a constant. By finding the square's size within the image, and scaling this to their known dimension, we were able to calculate the size of the plants. This normalizes plant dimensions over time to each other, regardless of a shifted height that the image was shot at, or different framing, because we have an object to scale off of. 
 
-
-#TODO how did we do edge detection?
-
 To detect the squares, we started with the OpenCV tool `findCountours`, which identifies shapes in an image based on pixel intensity
-
-
 
 
 ## Results
