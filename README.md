@@ -76,13 +76,15 @@ An alternative to the above filtering that we explored is Canny Edge Detection. 
 
 After detecting the plants, we were able to determing contour lines that surround each plant. This allowed us to calulate the area of plant within each contour line. This measurement gave us a combination of both size and height of the plant, because the plant gets closer to the camera as it grows taller.
 
-Next, we wanted to be able to relate the area of the plant in pixels to a measurement in the real world. To do this we detected the edges of the squares in the image.  
+Next, we wanted to be able to relate the area of the plant in pixels to a measurement in the real world. To do this we used the squares of the tray the plants are grown in. These squares are easily identifiable, and have a consistent dimension in the real world that we know and can use as a constant. By finding the square's size within the image, and scaling this to their known dimension, we were able to calculate the size of the plants. This normalizes plant dimensions over time to each other, regardless of a shifted height that the image was shot at, or different framing, because we have an object to scale off of. 
 
 
 #TODO how did we do edge detection?
 
+To detect the squares, we started with the OpenCV tool `findCountours`, which identifies shapes in an image based on pixel intensity
 
-After detecting the edges of the squares in the image and calculating their area in pixels. We measured the squares in real life and were able to create a ratio of pixels to mm for each image. We could then use this value to calculate the area in mm of the plants. 
+
+
 
 ## Results
 
@@ -109,12 +111,12 @@ While working on this project one problem we struggled with was calculating the 
 We identified a number of improvements that could make this project better in the future:
 - Add in debugging features that can help us understand and visualize what our algorithm is doing throughout each of its steps
 - Test our algorithm with other images and angles to understand its limitations
-- Add in an additional step to automatically crop the image to only include the black tray
+- Add in an additional step to automatically crop the image to only include the black tray, or make the algorithm more flexible about what is in the image
 - Add in the abilitiy to count the number of squares in the image, and partition the analysis based on these squares
-- With the above step, we could then use PlantCV built in analysis, and add some calculations that analyze the shape of the plant
+- With the above step, we could then use PlantCV built in analysis, and add some calculations that analyze the shape of the plant as it grows
 
 ## Lessons
 
-- Computer vision is brittle, and difficult to generalize
-- Before starting a project in computer vision, it is extremely important to narrow down the context and understand what the input images will be
-- RGB images can be used in plant analysis, but for more advanced metrics thermal imaging or other alternatives can give more useful data
+- Computer vision is brittle, and difficult to generalize, especially without the use of any machine learning. Our algorithm for detecting and measuring these plants is able to account for different heights and angles of the image, but not anything beyond that, such as drastially different cropping or a different size of seedling bed.
+- Before starting a project in computer vision, it is extremely important to narrow down the context and understand what the input images will be. Starting from a place of wanting any image to work, without being specific about scope gives you nothing to build a foundation on.
+- RGB images can be used in plant analysis, but for more advanced metrics like thermal imaging or other alternatives can give more useful data
