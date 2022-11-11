@@ -1,7 +1,7 @@
 # Plant Detection and Measurement (PDM)
 Ally Bell and Jonas Kazlauskas
 
-In this project we hoped to explore the capabilities of computer vision in agriculture. This is a blossoming field of computation that has a lot of potential to impact the way we grow our food. As a testbed for exploring this topic, we used Olin Hydroponics' seedling cart that has small plants germinating. An image of this set up is shown below.
+In this project we hoped to explore the capabilities of computer vision in agriculture. This is a blossoming field of computation that has a lot of potential to impact the way we grow our food. Not only are there applications in agriculture of monitoring and predicting yeild over a season, there is potential to collect and monitor longer term data. Things such as different soil management, pesticide application, or watering can be obsered over many acres, allowing extended context to inform future decision and optimization. It also has applications in new styles of automated indoor hydroponics farms. As a testbed for exploring this topic, we used Olin Hydroponics' seedling cart that has small plants germinating. An image of this set up is shown below.
 
 | Hydroponics Seedling Cart |
 :----------------------:|
